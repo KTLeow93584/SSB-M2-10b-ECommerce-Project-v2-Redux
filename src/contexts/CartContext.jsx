@@ -1,7 +1,7 @@
 
 import { useContext, createContext, useState } from 'react';
 
-const CartContext = createContext(false);
+const CartContext = createContext({ isVisible: false, setIsVisible: null });
 export function GetCartContext() {
     return useContext(CartContext);
 }

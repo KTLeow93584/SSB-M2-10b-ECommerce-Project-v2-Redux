@@ -10,12 +10,14 @@ import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom';
 // ==============================================
 import NavigationPanel from './components/NavigationPanel.jsx';
 import Footer from './components/Footer.jsx';
+import IncompleteFeatureModal from './components/IncompleteFeatureModal.jsx';
 
 import Cart from './pages/Cart.jsx';
 import Home from './pages/Home.jsx';
 import ErrorPage from './pages/ErrorPage.jsx';
 
 import { CartContextProvider, GetCartContext } from './contexts/CartContext.jsx';
+import { IncompleteFeatureContextProvider } from './contexts/IncompleteFeatureContext.jsx';
 
 import { store } from './store.jsx';
 // ==============================================
@@ -78,6 +80,7 @@ export function Layout() {
           style={{ height: isOverflowed ? "100%" : "100vh" }}>
           <Cart />
         </div>
+        <IncompleteFeatureModal />
       </div >
     </>
   );
@@ -85,19 +88,21 @@ export function Layout() {
 // ==============================================
 function App() {
   return (
-    <CartContextProvider>
-      <Provider store={store}>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Layout />}>
-              <Route index element={<Home />} />
-              {/*<Route path="cart" element={<Cart />} />*/}
-              <Route path="*" element={<ErrorPage />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
-      </Provider>
-    </CartContextProvider>
+    <IncompleteFeatureContextProvider>
+      <CartContextProvider>
+        <Provider store={store}>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Layout />}>
+                <Route index element={<Home />} />
+                {/*<Route path="cart" element={<Cart />} />*/}
+                <Route path="*" element={<ErrorPage />} />
+              </Route>
+            </Routes>
+          </BrowserRouter>
+        </Provider>
+      </CartContextProvider>
+    </IncompleteFeatureContextProvider>
   )
 }
 

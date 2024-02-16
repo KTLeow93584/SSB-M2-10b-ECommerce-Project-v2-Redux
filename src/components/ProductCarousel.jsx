@@ -15,13 +15,13 @@ export default function ProductCarousel({ catalogue, title, titleKeyAbbr }) {
             className="top-seller-container rounded">
             <p className="fs-5 mt-2 fw-bold">{title}</p>
             <Carousel id="top-seller-carousel" className="pt-2 pb-4" interval="60000">
-                {RenderItemRow(catalogue, titleKeyAbbr)}
+                {RenderRow(catalogue, titleKeyAbbr)}
             </Carousel>
         </Container>
     );
 }
 
-function RenderItemRow(catalogue, titleKeyAbbr) {
+function RenderRow(catalogue, titleKeyAbbr) {
     const itemHTMLList = [];
 
     for (let i = 0; i < catalogue.length; i += maxItemPerRow) {
@@ -29,7 +29,7 @@ function RenderItemRow(catalogue, titleKeyAbbr) {
         itemHTMLList.push(
             <Carousel.Item key={`carousel-${titleKeyAbbr}-row-${startIndex}`}>
                 <Row className="d-flex w-100 justify-content-evenly">
-                    {RenderRowItems(catalogue, startIndex, titleKeyAbbr)}
+                    {RenderItems(catalogue, startIndex, titleKeyAbbr)}
                 </Row>
             </Carousel.Item>
         );
@@ -37,7 +37,7 @@ function RenderItemRow(catalogue, titleKeyAbbr) {
     return itemHTMLList;
 }
 
-function RenderRowItems(catalogue, startIndex, titleKeyAbbr) {
+function RenderItems(catalogue, startIndex, titleKeyAbbr) {
     const newCatalogueRowItems = catalogue.slice(startIndex, Math.min(catalogue.length, startIndex + maxItemPerRow));
 
     return newCatalogueRowItems.map((catalogueItem, index) =>

@@ -29,10 +29,10 @@ export default function ProductBanner({ catalogue, suffix }) {
                     </Card.Body>
 
                     <Card.Body className="d-flex flex-column align-items-start justify-content-center card-body-banner w-100 px-0">
-                        <Button variant="link"
-                            className="card-link-banner text-links-banner-button text-start">
+                        <a href="#"
+                            className="card-link-banner text-links-banner-button text-start ms-3">
                             {promoItem.buttonDescription}
-                        </Button>
+                        </a>
                     </Card.Body>
                 </Card>
             </Col >

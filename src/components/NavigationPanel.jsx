@@ -1,6 +1,7 @@
 // ==============================================
 import Container from 'react-bootstrap/Container';
 
+import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Image from 'react-bootstrap/Image';
 
@@ -13,6 +14,7 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 // ==============================================
 import { GetCartContext } from '../contexts/CartContext.jsx';
+import { GetIncompleteFeatureContext } from '../contexts/IncompleteFeatureContext.jsx';
 // ==============================================
 export default function NavigationPanel() {
     const cartSize = useSelector((state) => state.cart.value.length);
@@ -20,6 +22,20 @@ export default function NavigationPanel() {
     const cartContext = GetCartContext();
     const isCartVisible = cartContext.isVisible;
     const setIsCartVisible = cartContext.setIsVisible;
+
+    const incompleteFeatureContext = GetIncompleteFeatureContext();
+    const setModalHeaderTitle = incompleteFeatureContext.setModalHeaderTitle;
+    const setShowModal = incompleteFeatureContext.setShowModal;
+
+    function onSetModalVisibleSearch() {
+        setModalHeaderTitle("Search Feature");
+        setShowModal(true);
+    }
+
+    function onSetModalVisibleOrders() {
+        setModalHeaderTitle("Orders Page");
+        setShowModal(true);
+    }
 
     return (
         <>
@@ -31,28 +47,34 @@ export default function NavigationPanel() {
                                 <Image src={new URL("../assets/logo.webp", import.meta.url).href} width="85px" />
                             </Navbar.Brand>
 
-                            <div className="d-flex" style={{ width: "50vw" }}>
+                            <div className="d-flex justify-content-center" style={{ width: "50vw" }}>
                                 <Form.Control type="query-item-name" id="query-item-name" className="me-2" style={{ minWidth: "30%" }}
                                     placeholder="Search item name here" aria-describedby="item-search"
                                 />
+                                <Nav.Link
+                                    has={Link}
+                                    onClick={onSetModalVisibleSearch}
+                                    className="text-center align-self-center text-links-button ms-2 me-3">
+                                    Search
+                                </Nav.Link>
                                 <LanguageDropdown />
                             </div>
 
                             <Navbar.Toggle aria-controls="basic-navbar-nav" />
                             <Navbar.Collapse id="basic-navbar-nav">
                                 <Nav className="ms-auto">
-                                    <Nav.Link has={Link} to="/orders" className="text-links-button">Orders</Nav.Link>
+                                    <Nav.Link has={Link} onClick={onSetModalVisibleOrders} className="text-links-button">Orders</Nav.Link>
                                     <Nav.Link as={Link} onClick={() => setIsCartVisible(!isCartVisible)} className="text-links-button">
                                         {`Cart${cartSize > 0 ? (" (" + cartSize + ")") : ""}`}
                                     </Nav.Link>
-                                    {/* Nice-to-have Scope: Authentication*/}
+                                    {/* TODO (Nice-to-have/Optional Scope): Authentication */}
                                     {/* <Nav.Link href="#logout" className="text-links-button">Logout</Nav.Link> */}
                                 </Nav>
                             </Navbar.Collapse>
-                        </Container >
-                    </Navbar >
-                </Container >
-            </Container >
+                        </Container>
+                    </Navbar>
+                </Container>
+            </Container>
         </>
     );
 }
