@@ -15,7 +15,7 @@ import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { addToCart } from '../feature/cart/cartSlice.jsx';
+import { addToCart, modifyCartItemQuantity } from '../feature/cart/cartSlice.jsx';
 import { useSelector } from 'react-redux';
 // ==============================================
 const minNumberPerItem = 0;
@@ -24,6 +24,7 @@ const maxNumberPerItem = 99;
 // Grid-based (Row -> Column) Product Render.
 export default function ProductGrid({ catalogue }) {
     const activeCurrency = useSelector((state) => state.currency.value);
+    const activeCart = useSelector((state) => state.cart.value);
     const dispatch = useDispatch();
 
     const [quantities, setQuantities] = useState(catalogue.map(() => 0));
@@ -34,23 +35,32 @@ export default function ProductGrid({ catalogue }) {
         if (quantities[index] <= 0)
             return;
 
-        const discountedPrice = catalogue[index].discountedCost ?? catalogue[index].cost;
-        const item = {
-            name: catalogue[index].name,
-            description: catalogue[index].description,
-            src: catalogue[index].src,
-            quantity: quantities[index],
-            basePrice: catalogue[index].cost,
-            baseDiscountedPrice: discountedPrice,
-            convertedBasePrice: catalogue[index].cost * activeCurrency.globalRate,
-            convertedTalliedPrice: discountedPrice * activeCurrency.globalRate
-        };
-        item.total = item.convertedTalliedPrice * item.quantity;
+        const existingCartItemIndex = activeCart.findIndex((cartItem) => cartItem.name === catalogue[index].name);
+        if (existingCartItemIndex !== -1) {
+            dispatch(modifyCartItemQuantity({
+                index: existingCartItemIndex,
+                cartItemQuantity: activeCart[existingCartItemIndex].quantity + quantities[index]
+            }));
+        }
+        else {
+            const discountedPrice = catalogue[index].discountedCost ?? catalogue[index].cost;
+            const item = {
+                name: catalogue[index].name,
+                description: catalogue[index].description,
+                src: catalogue[index].src,
+                quantity: quantities[index],
+                basePrice: catalogue[index].cost,
+                baseDiscountedPrice: discountedPrice,
+                convertedBasePrice: catalogue[index].cost * activeCurrency.globalRate,
+                convertedTalliedPrice: discountedPrice * activeCurrency.globalRate
+            };
+            item.total = item.convertedTalliedPrice * item.quantity;
 
-        // Debug
-        //console.log("[Add To Cart, Pre-Dispatch] Item.", item);
+            // Debug
+            //console.log("[Add To Cart, Pre-Dispatch] Item.", item);
 
-        dispatch(addToCart(item));
+            dispatch(addToCart(item));
+        }
     }
 
     function quantityMathModify(previousQuantityData, index, isAdd = true) {
@@ -134,26 +144,28 @@ export default function ProductGrid({ catalogue }) {
                                 addItemToCart(i);
                             }}>
                             <Form.Group className="col-6">
-                                <Button type="submit" className="btn-sm card-cart-button-product"
+                                <Button type="submit" className="btn-sm button-primary-group button-static button-click-animated"
                                     style={{ fontSize: "0.7em" }}>
                                     Add to Cart
                                 </Button>
                             </Form.Group>
                             <Form.Group className=" col-6 d-flex flex-row justify-content-center">
-                                <Button className="btn-sm card-cart-button-product me-1"
-                                    onClick={() => quantityMathModify(quantities, i, false)}>
+                                <Button className="btn-sm button-primary-group button-static button-click-animated me-1"
+                                    onClick={() => quantityMathModify(quantities, i, false)}
+                                    style={{ minWidth: "35px" }}>
                                     <FontAwesomeIcon icon={faMinus} />
                                 </Button>
                                 <Form.Control
                                     id={`catalogue-input-${i}`}
                                     min={minNumberPerItem} max={maxNumberPerItem}
                                     type="number" placeholder="0"
-                                    style={{ width: "22%", textAlign: "center" }}
+                                    style={{ minWidth: "35px", width: "22%", textAlign: "center" }}
                                     value={parseInt(quantities[i])}
                                     onChange={(event) => quantityDirectSet(quantities, i, event.target.value)}
                                     onFocus={(event) => event.target.select()} />
-                                <Button className="btn-sm card-cart-button-product ms-1"
-                                    onClick={() => quantityMathModify(quantities, i, true)}>
+                                <Button className="btn-sm button-primary-group button-static button-click-animated ms-1"
+                                    onClick={() => quantityMathModify(quantities, i, true)}
+                                    style={{ minWidth: "35px" }}>
                                     <FontAwesomeIcon icon={faPlus} />
                                 </Button>
                             </Form.Group>

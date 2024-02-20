@@ -77,7 +77,7 @@ export function Layout() {
         <div
           ref={cartPanelRef}
           className={`cart ${isCartVisible ? "cart-expand" : ""}`}
-          style={{ height: isOverflowed ? "100%" : "100vh" }}>
+          style={{ height: isOverflowed ? "100%" : "100px" }}>
           <Cart />
         </div>
         <IncompleteFeatureModal />

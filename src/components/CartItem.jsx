@@ -60,7 +60,7 @@ export default function CartItem({ item, index }) {
 
     return (
         <Col className="col-12">
-            <Card className="mb-2">
+            <Card className="mb-2 cart-item">
                 <Card.Body>
                     <Row>
                         <Col md={12} lg={4}
@@ -76,7 +76,7 @@ export default function CartItem({ item, index }) {
                             <Card.Text>{item.description}</Card.Text>
                             <Row className="d-flex flex-row align-items-center justify-content-center w-100">
                                 <Col className="col-lg-6 col-12 d-flex flex-row align-items-center justify-content-center">
-                                    <Button className="btn-sm card-cart-button-product me-1"
+                                    <Button className="btn-sm button-primary-group button-static button-click-animated me-1"
                                         style={{ minWidth: "35px", width: "22%" }}
                                         onClick={() => {
                                             const willDelete = item.quantity - 1 <= 0;
@@ -101,7 +101,7 @@ export default function CartItem({ item, index }) {
                                                 removeItem();
                                         }}
                                         onFocus={(event) => event.target.select()} />
-                                    <Button className="btn-sm card-cart-button-product ms-1"
+                                    <Button className="btn-sm button-primary-group button-static button-click-animated ms-1"
                                         style={{ minWidth: "35px", width: "22%" }}
                                         onClick={() => addOrSubtractQuantity(true)}>
                                         <FontAwesomeIcon icon={faPlus} />

@@ -1,7 +1,6 @@
 // ==============================================
 import Container from 'react-bootstrap/Container';
 
-import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Image from 'react-bootstrap/Image';
 
@@ -12,6 +11,9 @@ import { LanguageDropdown } from './InfoDropdowns';
 
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 // ==============================================
 import { GetCartContext } from '../contexts/CartContext.jsx';
 import { GetIncompleteFeatureContext } from '../contexts/IncompleteFeatureContext.jsx';
@@ -47,16 +49,22 @@ export default function NavigationPanel() {
                                 <Image src={new URL("../assets/logo.webp", import.meta.url).href} width="85px" />
                             </Navbar.Brand>
 
-                            <div className="d-flex justify-content-center" style={{ width: "50vw" }}>
-                                <Form.Control type="query-item-name" id="query-item-name" className="me-2" style={{ minWidth: "30%" }}
-                                    placeholder="Search item name here" aria-describedby="item-search"
-                                />
-                                <Nav.Link
-                                    has={Link}
-                                    onClick={onSetModalVisibleSearch}
-                                    className="text-center align-self-center text-links-button ms-2 me-3">
-                                    Search
-                                </Nav.Link>
+                            <div className="d-flex justify-content-center " style={{ width: "50vw" }}>
+                                <div className="d-flex justify-content-center bg-dark rounded me-3" style={{ width: "100%" }}>
+                                    <Form.Control type="query-item-name" id="query-item-name" className="" style={{ minWidth: "30%" }}
+                                        placeholder="Search item name here" aria-describedby="item-search"
+                                    />
+                                    <Nav.Link
+                                        has={Link}
+                                        onClick={onSetModalVisibleSearch}
+                                        className="d-flex align-items-center justify-content-center text-links-button"
+                                        style={{ height: "40px" }}>
+                                        <FontAwesomeIcon
+                                            className={"text-center text-links px-3"}
+                                            icon={faMagnifyingGlass} />
+                                    </Nav.Link>
+                                </div>
+
                                 <LanguageDropdown />
                             </div>
 

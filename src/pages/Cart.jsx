@@ -50,7 +50,7 @@ function CartHeader() {
                 <h4>SHOPPING CART</h4>
             </Col>
             <Col className="col-12">
-                <hr />
+                <hr className="primary-horizontal-line" />
             </Col>
         </Row>
     );
@@ -78,7 +78,7 @@ function CartItems({ cart }) {
         cart.map((item, index) => (
             <div key={`cart-item-display-${index}`}>
                 <CartItem key={index} item={item} index={index} />
-                {index < cart.length - 1 ? <hr className="mt-2" style={{ width: "95%" }} /> : null}
+                {index < cart.length - 1 ? <hr className="primary-horizontal-line mt-2" style={{ width: "95%" }} /> : null}
             </div>))
     );
 }
@@ -87,7 +87,7 @@ function ShippingNotes() {
     return (
         <Row className="d-flex flex-row justify-content-center w-100 mx-0 px-0">
             <Col className="col-12">
-                <hr className="mt-2" style={{ width: "95%" }} />
+                <hr className="primary-horizontal-line mt-2" style={{ width: "95%" }} />
             </Col>
             <Col className="col-12">
                 <p>Do you have any notes for either the shipping team or the company?</p>
@@ -136,11 +136,7 @@ function CartFooter({ setIsCartVisible }) {
                 <CheckoutButton />
             </Col>
             <Col className="col-12 d-flex justify-content-center">
-                <Button variant="secondary"
-                    className="w-100 mt-3"
-                    onClick={() => setIsCartVisible(false)}>
-                    Continue Shopping
-                </Button>
+                <ContinueShoppingButton setIsCartVisible={setIsCartVisible} />
             </Col>
         </Row>
     );
@@ -160,13 +156,19 @@ function EmptyCartFooter({ setIsCartVisible }) {
     return (
         <Row className="d-flex flex-row justify-content-center w-100 mb-3 mx-0 px-0">
             <Col className="col-12 d-flex justify-content-center">
-                <Button variant="secondary"
-                    className="w-100 mt-3"
-                    onClick={() => setIsCartVisible(false)}>
-                    Continue Shopping
-                </Button>
+                <ContinueShoppingButton setIsCartVisible={setIsCartVisible} />
             </Col>
         </Row>
+    );
+}
+
+function ContinueShoppingButton({ setIsCartVisible }) {
+    return (
+        <Button
+            className="w-100 mt-3 button-primary-group button-static"
+            onClick={() => setIsCartVisible(false)}>
+            Continue Shopping
+        </Button>
     );
 }
 // ==============================================
